@@ -13,7 +13,7 @@ use Doctrine\ORM\Tools\Console\MetadataFilter;
 use Doctrine\Bundle\DoctrineBundle\Command\DoctrineCommand;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
-class ImportMappingDoctrineCommand extends DoctrineCommand
+class ImportMappingDataDictionaryCommand extends DoctrineCommand
 {
     /**
      * {@inheritDoc}
@@ -60,14 +60,10 @@ EOT
         $bundle = $this->getApplication()->getKernel()->getBundle($input->getArgument('bundle'));
         $destPath = $bundle->getPath();
         $destPath .= '/Resources/config/dictionary';
+
         $cme = new ClassMetadataExporter();
         $exporter = $cme->getExporter('json');
         $exporter->setOverwriteExistingFiles($input->getOption('force'));
-
-        /*if ('annotation' === $type) {
-            $entityGenerator = $this->getEntityGenerator();
-            $exporter->setEntityGenerator($entityGenerator);
-        }*/
 
         $em = $this->getEntityManager($input->getOption('em'), $input->getOption('shard'));
 
@@ -81,17 +77,21 @@ EOT
         $cmf->setEntityManager($em);
         $metadata = $cmf->getAllMetadata();
         $metadata = MetadataFilter::filter($metadata, $input->getOption('filter'));
+
         if ($metadata) {
             $output->writeln(sprintf('Importing mapping information from "<info>%s</info>" entity manager', $emName));
+
             foreach ($metadata as $class) {
                 $className = $class->name;
                 $class->name = $bundle->getNamespace().'\\Entity\\'.$className;
                 $path = $destPath.'/'.str_replace('\\', '.', $className).'.orm.json';
                 $output->writeln(sprintf('  > writing <comment>%s</comment>', $path));
                 $code = $exporter->exportClassMetadata($class);
+                
                 if (!is_dir($dir = dirname($path))) {
                     mkdir($dir, 0775, true);
                 }
+                
                 file_put_contents($path, $code);
                 chmod($path, 0664);
             }
