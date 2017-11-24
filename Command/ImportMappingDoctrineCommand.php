@@ -8,11 +8,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\Mapping\Driver\DatabaseDriver;
 use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
-use Doctrine\ORM\Tools\Export\ClassMetadataExporter;
+use DataDictionaryBundle\Tools\Export\ClassMetadataExporter;
 use Doctrine\ORM\Tools\Console\MetadataFilter;
+use Doctrine\Bundle\DoctrineBundle\Command\DoctrineCommand;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
-class ImportMappingDoctrineCommand extends ContainerAwareCommand
+class ImportMappingDoctrineCommand extends DoctrineCommand
 {
     /**
      * {@inheritDoc}
@@ -58,15 +59,15 @@ EOT
     {
         $bundle = $this->getApplication()->getKernel()->getBundle($input->getArgument('bundle'));
         $destPath = $bundle->getPath();
-        $destPath .= '/Resources/config/doctrine';
+        $destPath .= '/Resources/config/dictionary';
         $cme = new ClassMetadataExporter();
-        $exporter = $cme->getExporter($type);
+        $exporter = $cme->getExporter('json');
         $exporter->setOverwriteExistingFiles($input->getOption('force'));
 
-        if ('annotation' === $type) {
+        /*if ('annotation' === $type) {
             $entityGenerator = $this->getEntityGenerator();
             $exporter->setEntityGenerator($entityGenerator);
-        }
+        }*/
 
         $em = $this->getEntityManager($input->getOption('em'), $input->getOption('shard'));
 
@@ -85,11 +86,7 @@ EOT
             foreach ($metadata as $class) {
                 $className = $class->name;
                 $class->name = $bundle->getNamespace().'\\Entity\\'.$className;
-                if ('annotation' === $type) {
-                    $path = $destPath.'/'.str_replace('\\', '.', $className).'.php';
-                } else {
-                    $path = $destPath.'/'.str_replace('\\', '.', $className).'.orm.'.$type;
-                }
+                $path = $destPath.'/'.str_replace('\\', '.', $className).'.orm.json';
                 $output->writeln(sprintf('  > writing <comment>%s</comment>', $path));
                 $code = $exporter->exportClassMetadata($class);
                 if (!is_dir($dir = dirname($path))) {
