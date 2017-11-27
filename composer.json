@@ -38,24 +38,5 @@
                 }
             }
         }
-    },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "mherrera/data-dictionary",
-                "version": "dev-master",
-                "source": {
-                    "url": "git://github.com/mherrera/data-dictionary.git",
-                    "type": "git",
-                    "reference": "master"
-                },
-                "autoload": {
-                    "psr-0" : {
-                        "Mherrera\\DataDictionaryBundle" : "src"
-                    }
-                }
-            }
-        }
     ]
 }
