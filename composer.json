@@ -20,16 +20,6 @@
             "Mherrera\\DataDictionaryBundle\\" : ""
         }
     },
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0-dev"
-        }
-    }
-=======
-=======
->>>>>>> Stashed changes
     "repositories": [
         {
             "type": "package",
@@ -49,5 +39,4 @@
             }
         }
     ]
->>>>>>> Stashed changes
 }
