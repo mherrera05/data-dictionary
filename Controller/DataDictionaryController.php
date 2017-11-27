@@ -8,9 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 class DataDictionaryController extends Controller
 {
 	private $files = array();
+
     public function showAction()
     {
     	$bundles = $this->get('kernel')->getBundles();
+        $array = array();
+        $tablesArray = array();
 
     	foreach ($bundles as $bundle) {
 	        $destPath = $bundle->getPath();
@@ -18,11 +21,16 @@ class DataDictionaryController extends Controller
 
 	        if(is_dir($destPath)){
 	        	$this->getJsonFile($destPath);
-	        }
-    		
-    	}
 
-        return $this->render('DataDictionaryBundle:DataDictionary:show.html.twig', array('tables'=>$this->files));
+                foreach ($this->files as $file) {
+                    $content = file_get_contents($destPath.'/'.$file.'.orm.json');
+                    $content = json_decode($content, true);
+                    $array[] = $content;
+                    $tablesArray[] = array('name'=>$file, 'table'=>$content['table']);
+                }
+	        }
+    	}
+        return $this->render('DataDictionaryBundle:DataDictionary:show.html.twig', array('tables'=>$tablesArray, 'content'=>$array));
     }
 
     public function getJsonFile($path)

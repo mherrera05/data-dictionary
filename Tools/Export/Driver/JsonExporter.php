@@ -83,6 +83,6 @@ class JsonExporter extends AbstractExporter
             } 
         }
 
-        return json_encode(array($metadata->name => $array));
+        return json_encode($array);
     }
 }

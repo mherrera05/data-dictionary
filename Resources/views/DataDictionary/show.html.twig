@@ -24,7 +24,7 @@
                      <ul>
             			{% block list_entities %}
             				{% for table in tables %}
-		                        <li><a href="#{{table}}"><span class="badge get"><i class="fa fa-arrow-down"></i></span>{{table}}</a></li>
+		                        <li><a href="#{{table.table}}"><span class="badge get"><i class="fa fa-table"></i></span>{{table.name}}</a></li>
 	                        {% endfor %}
             			{% endblock list_entities %}
                      </ul>
@@ -41,87 +41,82 @@
                   <h2 class="group-heading">Tables <a href="#tables" class="permalink">&para;</a></h2>
                   
                   {% block table_description %}
-	                  <div id="empleados-consulta-de-empleado" class="resource">
-	                     <!--<h3 class="resource-heading">Consulta de Empleado <a href="#empleados-consulta-de-empleado" class="permalink">&nbsp;&para;</a></h3>
-	                     <p>Responde con los datos del empleado consultado e informacion de sus huellas enroladas.</p>-->
-	                     <div id="empleados-consulta-de-empleado-get" class="action get">
-	                        <h4 class="action-heading">
-	                           <div class="name"></div>
-	                           <a href="#empleados-consulta-de-empleado-get" class="method get">Table</a>
-	                           <code class="uri">users</code>
-	                        </h4>
-	                        <h4>Table Description</h4>
-	                        <br>
-	                        <table class="table table-striped table-condensed table-bordered">
-	                        	<thead>
-	                        		<tr>
-	                        			<th>Field Name</th>
-	                        			<th>Data Type</th>
-	                        			<th>Null</th>
-	                        			<th>Description</th>
-	                        		</tr>
-	                        	</thead>
-	                        	<tbody>
-	                        		<tr>
-	                        			<td>Field Name</td>
-	                        			<td>Data Type</td>
-	                        			<td>Null</td>
-	                        			<td>Description</td>
-	                        		</tr>
-	                        	</tbody>
-	                        </table>
-	                    </div>
-	                </div>
+                     {% for table in content %}
+   	                  <div id="{{table.table}}" class="resource">
+   	                     <!--<h3 class="resource-heading">Consulta de Empleado <a href="#empleados-consulta-de-empleado" class="permalink">&nbsp;&para;</a></h3>
+   	                     <p>Responde con los datos del empleado consultado e informacion de sus huellas enroladas.</p>-->
+   	                     <div id="{{table.table}}" class="action get">
+   	                        <h4 class="action-heading">
+   	                           <div class="name"></div>
+   	                           <a href="#empleados-consulta-de-empleado-get" class="method get">Table</a>
+   	                           <code class="uri">{{table.table}}</code>
+   	                        </h4>
+   	                        <h4>Table Description</h4>
+   	                        <br>
+   	                        <table class="table table-striped table-condensed table-bordered">
+   	                        	<thead>
+   	                        		<tr>
+   	                        			<th>Field Name</th>
+   	                        			<th>Data Type</th>
+   	                        			<th>Null</th>
+   	                        			<th>Description</th>
+   	                        		</tr>
+   	                        	</thead>
+   	                        	<tbody>
+                                    {% for key, value in table.fields %}
+                                       {% if value.length is defined and value.length != '' %}
+                                          {% set length = '('~ value.length ~')' %}
+                                       {% else %}
+                                          {% set length = null %}
+                                       {% endif %}
+                                       <tr>
+                                          <td>{{key}}</td>
+                                          <td>
+                                             {% if value.type == 'integer' %}
+                                                {% if value.length is not defined %}
+                                                   {% set length = '(11)' %}
+                                                {% endif %}
+                                                {{'int'|upper}}
+                                             {% elseif value.type == 'string' %}
+                                                {{'varchar'|upper}}
+                                             {% elseif value.type == 'boolean' %}
+                                                {% set length = '(1)'%}
+                                                {{'tinyint'|upper}}
+                                             {% elseif value.type == 'text' %}
+                                                {{'longtext'|upper}}
+                                             {% else %}
+                                                {{value.type|upper}}
+                                             {% endif %}
 
-	                <div id="empleados-consulta-de-empleado" class="resource">
-	                     <!--<h3 class="resource-heading">Consulta de Empleado <a href="#empleados-consulta-de-empleado" class="permalink">&nbsp;&para;</a></h3>
-	                     <p>Responde con los datos del empleado consultado e informacion de sus huellas enroladas.</p>-->
-	                     <div id="empleados-consulta-de-empleado-get" class="action get">
-	                        <h4 class="action-heading">
-	                           <div class="name"></div>
-	                           <a href="#empleados-consulta-de-empleado-get" class="method get">Table</a>
-	                           <code class="uri">company</code>
-	                        </h4>
-	                        <h4>Table Description</h4>
-	                        <br>
-	                        <table class="table table-striped table-condensed table-bordered">
-	                        	<thead>
-	                        		<tr>
-	                        			<th>Field Name</th>
-	                        			<th>Data Type</th>
-	                        			<th>Null</th>
-	                        			<th>Description</th>
-	                        		</tr>
-	                        	</thead>
-	                        	<tbody>
-	                        		<tr>
-	                        			<td>Field Name</td>
-	                        			<td>Data Type</td>
-	                        			<td>Null</td>
-	                        			<td>Description</td>
-	                        		</tr>
-	                        		<tr>
-	                        			<td>Field Name</td>
-	                        			<td>Data Type</td>
-	                        			<td>Null</td>
-	                        			<td>Description</td>
-	                        		</tr>
-	                        		<tr>
-	                        			<td>Field Name</td>
-	                        			<td>Data Type</td>
-	                        			<td>Null</td>
-	                        			<td>Description</td>
-	                        		</tr>
-	                        	</tbody>
-	                        </table>
-	                    </div>
+                                             {% if length is defined %}
+                                                {{length}}
+                                             {% endif %}
+                                          </td>
+      	                        			<td>
+                                             {% if value.nullable is defined and value.nullable == 1 %}
+                                                True
+                                             {% else %}
+                                                False
+                                             {% endif %}
+                                          </td>
+      	                        			<td>
+                                             {% if value.description is defined %}
+                                                {{value.description}}
+                                             {% endif %}
+                                          </td>
+      	                        		</tr>
+                                    {% endfor %}
+   	                        	</tbody>
+   	                        </table>
+   	                    </div>
+                     {% endfor %}
 	                </div>
                   {% endblock table_description %}
                </section>
             </div>
          </div>
       </div>
-      <p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 23 Nov 2017</p>
+      <p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">Data Dictionary</a>&nbsp;{{'now'|date}}</p>
       <script>/* eslint-env browser */
          /* eslint quotes: [2, "single"] */
          'use strict';
