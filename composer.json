@@ -21,12 +21,15 @@
         }
     },
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "extra": {
         "branch-alias": {
             "dev-master": "3.0-dev"
         }
     }
 =======
+=======
+>>>>>>> Stashed changes
     "repositories": [
         {
             "type": "package",
@@ -34,7 +37,7 @@
                 "name": "mherrera05/data-dictionary",
                 "version": "dev-master",
                 "source": {
-                    "url": "git://github.com/mherrera/data-dictionary.git",
+                    "url": "git://github.com/mherrera05/data-dictionary.git",
                     "type": "git",
                     "reference": "master"
                 },
