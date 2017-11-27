@@ -1,3 +1,3 @@
-data_dictionary_homepage:
-    path:     /
-    defaults: { _controller: DataDictionaryBundle:Default:index }
+data_dictionary_show:
+    path:     /data-dictionary
+    defaults: { _controller: DataDictionaryBundle:DataDictionary:show }

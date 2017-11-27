@@ -8,11 +8,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\Mapping\Driver\DatabaseDriver;
 use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
-use Doctrine\ORM\Tools\Export\ClassMetadataExporter;
+use DataDictionaryBundle\Tools\Export\ClassMetadataExporter;
 use Doctrine\ORM\Tools\Console\MetadataFilter;
+use Doctrine\Bundle\DoctrineBundle\Command\DoctrineCommand;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
-class ImportMappingDoctrineCommand extends ContainerAwareCommand
+class ImportMappingDataDictionaryCommand extends DoctrineCommand
 {
     /**
      * {@inheritDoc}
@@ -58,15 +59,11 @@ EOT
     {
         $bundle = $this->getApplication()->getKernel()->getBundle($input->getArgument('bundle'));
         $destPath = $bundle->getPath();
-        $destPath .= '/Resources/config/doctrine';
-        $cme = new ClassMetadataExporter();
-        $exporter = $cme->getExporter($type);
-        $exporter->setOverwriteExistingFiles($input->getOption('force'));
+        $destPath .= '/Resources/config/dictionary';
 
-        if ('annotation' === $type) {
-            $entityGenerator = $this->getEntityGenerator();
-            $exporter->setEntityGenerator($entityGenerator);
-        }
+        $cme = new ClassMetadataExporter();
+        $exporter = $cme->getExporter('json');
+        $exporter->setOverwriteExistingFiles($input->getOption('force'));
 
         $em = $this->getEntityManager($input->getOption('em'), $input->getOption('shard'));
 
@@ -80,21 +77,21 @@ EOT
         $cmf->setEntityManager($em);
         $metadata = $cmf->getAllMetadata();
         $metadata = MetadataFilter::filter($metadata, $input->getOption('filter'));
+
         if ($metadata) {
             $output->writeln(sprintf('Importing mapping information from "<info>%s</info>" entity manager', $emName));
+
             foreach ($metadata as $class) {
                 $className = $class->name;
                 $class->name = $bundle->getNamespace().'\\Entity\\'.$className;
-                if ('annotation' === $type) {
-                    $path = $destPath.'/'.str_replace('\\', '.', $className).'.php';
-                } else {
-                    $path = $destPath.'/'.str_replace('\\', '.', $className).'.orm.'.$type;
-                }
+                $path = $destPath.'/'.str_replace('\\', '.', $className).'.orm.json';
                 $output->writeln(sprintf('  > writing <comment>%s</comment>', $path));
                 $code = $exporter->exportClassMetadata($class);
+                
                 if (!is_dir($dir = dirname($path))) {
                     mkdir($dir, 0775, true);
                 }
+                
                 file_put_contents($path, $code);
                 chmod($path, 0664);
             }
