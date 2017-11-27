@@ -1,5 +1,5 @@
 {
-    "name": "mherrera/data-dictionary",
+    "name": "mherrera05/data-dictionary",
     "description": "Bundle to expose database composition as data dictionary.",
     "type": "symfony-bundle",
     "license": "MIT",
@@ -20,9 +20,23 @@
             "Mherrera\\DataDictionaryBundle\\" : ""
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0-dev"
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "mherrera05/data-dictionary",
+                "version": "dev-master",
+                "source": {
+                    "url": "git://github.com/mherrera05/data-dictionary.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "psr-0" : {
+                        "Mherrera\\DataDictionaryBundle" : "src"
+                    }
+                }
+            }
         }
     },
     "repositories": [
