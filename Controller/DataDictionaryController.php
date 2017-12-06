@@ -4,6 +4,7 @@ namespace DataDictionaryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\HttpKernel\HttpKernel;
 
 class DataDictionaryController extends Controller
 {
@@ -11,7 +12,8 @@ class DataDictionaryController extends Controller
 
     public function showAction()
     {
-    	$bundles = $this->get('kernel')->getBundles();
+        $kernel = $this->get('kernel');
+    	$bundles = $kernel->getBundles();
         $array = array();
         $tablesArray = array();
 
@@ -30,7 +32,8 @@ class DataDictionaryController extends Controller
                 }
 	        }
     	}
-        return $this->render('DataDictionaryBundle:DataDictionary:show.html.twig', array('tables'=>$tablesArray, 'content'=>$array));
+
+        return $this->render('@DataDictionaryBundle/DataDictionary/show.html.twig', array('tables'=>$tablesArray, 'content'=>$array));
     }
 
     public function getJsonFile($path)
