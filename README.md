@@ -1,6 +1,6 @@
 ![Symfony Bundle](https://symfony.com/images/v5/pictos/home-main-illu.svg)
 
-[![Packagist](https://img.shields.io/packagist/dt/mherrera05/data-dictionary.svg?style=for-the-badge)](https://packagist.org/packages/mherrera05/data-dictionary) [![GitHub tag](https://img.shields.io/github/tag/mherrera05/data-dictionary.svg?style=for-the-badge)](https://github.com/mherrera05/data-dictionary/tags) [![Packagist](https://img.shields.io/packagist/l/mherrera05/data-dictionary.svg?style=for-the-badge)](https://packagist.org/packages/mherrera05/data-dictionary)
+[![Packagist](https://img.shields.io/packagist/dt/mherrera05/data-dictionary.svg?style=for-the-badge)](https://packagist.org/packages/mherrera05/data-dictionary) [![GitHub tag](https://img.shields.io/github/tag/mherrera05/data-dictionary.svg?style=for-the-badge)](https://github.com/mherrera05/data-dictionary/tags) [![Codacy grade](https://img.shields.io/codacy/grade/35077068b5dd410fa526deb69a007895.svg?style=for-the-badge)](https://www.codacy.com/app/migueljherrera/data-dictionary) [![Packagist](https://img.shields.io/packagist/l/mherrera05/data-dictionary.svg?style=for-the-badge)](https://packagist.org/packages/mherrera05/data-dictionary)
 
 # Introduction
 
@@ -10,7 +10,7 @@
 # Requirements
 
  * PHP `5.3 or higher`
- * Symfony `2.X`
+ * Symfony `2.x or 3.x`
  * Doctrine Symfony Bundle `~1.4`
  * Doctrine ORM `^2.4.8`
  * Twig `^1.0||^2.0`
@@ -68,6 +68,17 @@ data_dictionary:
 ```
 
 If you prefer, you can add a prefix for URL.
+
+### Step 4: Add vendor templates
+
+Add vendor templates directory as path in twig configuration `config.yml`.
+
+```yaml
+twig:
+    ...
+    paths:
+        '%kernel.root_dir%/../vendor/mherrera05/data-dictionary/Resources/views': 'DataDictionaryBundle'
+```
 
 ## Usage
 
