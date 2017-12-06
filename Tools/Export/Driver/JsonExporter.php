@@ -31,7 +31,6 @@ class JsonExporter extends AbstractExporter
         }
 
         $fieldMappings = $metadata->fieldMappings;
-        $ids = array();
         $fields = array();
 
         foreach ($fieldMappings as $name => $fieldMapping) {
@@ -51,7 +50,7 @@ class JsonExporter extends AbstractExporter
 
         foreach ($metadata->associationMappings as $name => $associationMapping) {
 
-            $associationMappingArray = array(
+            $associationArray = array(
                 'targetEntity' => $associationMapping['targetEntity'],
             );
 
@@ -62,23 +61,23 @@ class JsonExporter extends AbstractExporter
             if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
                 $joinColumns = $associationMapping['joinColumns'];
                 $newJoinColumns = array();
-                $nameJoinColumnAsDatabase = '';
+                $joinColumnAsDatabase = '';
 
                 foreach ($joinColumns as $joinColumn) {
                     $newJoinColumns['referencedColumnName'] = $joinColumn['referencedColumnName'];
                     
                     if(count($newJoinColumns)==1){
-                        $nameJoinColumnAsDatabase = $joinColumn['name']; 
+                        $joinColumnAsDatabase = $joinColumn['name']; 
                     }
                 }
 
                 $oneToOneMappingArray = $newJoinColumns;
-                $associationMappingArray = array_merge($associationMappingArray, $oneToOneMappingArray);
+                $associationArray = array_merge($associationArray, $oneToOneMappingArray);
 
                 if ($associationMapping['type'] & ClassMetadataInfo::ONE_TO_ONE) {
-                    $array['oneToOne'][$nameJoinColumnAsDatabase] = $associationMappingArray;
+                    $array['oneToOne'][$joinColumnAsDatabase] = $associationArray;
                 } else {
-                    $array['manyToOne'][$nameJoinColumnAsDatabase] = $associationMappingArray;
+                    $array['manyToOne'][$joinColumnAsDatabase] = $associationArray;
                 }
             } 
         }

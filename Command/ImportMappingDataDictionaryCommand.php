@@ -65,16 +65,16 @@ EOT
         $exporter = $cme->getExporter('json');
         $exporter->setOverwriteExistingFiles($input->getOption('force'));
 
-        $em = $this->getEntityManager($input->getOption('em'), $input->getOption('shard'));
+        $emg = $this->getEntityManager($input->getOption('em'), $input->getOption('shard'));
 
-        $databaseDriver = new DatabaseDriver($em->getConnection()->getSchemaManager());
-        $em->getConfiguration()->setMetadataDriverImpl($databaseDriver);
+        $databaseDriver = new DatabaseDriver($emg->getConnection()->getSchemaManager());
+        $emg->getConfiguration()->setMetadataDriverImpl($databaseDriver);
 
         $emName = $input->getOption('em');
         $emName = $emName ? $emName : 'default';
 
         $cmf = new DisconnectedClassMetadataFactory();
-        $cmf->setEntityManager($em);
+        $cmf->setEntityManager($emg);
         $metadata = $cmf->getAllMetadata();
         $metadata = MetadataFilter::filter($metadata, $input->getOption('filter'));
 
@@ -97,11 +97,11 @@ EOT
             }
 
             return 0;
-        } else {
-            $output->writeln('Database does not have any mapping information.', 'ERROR');
-            $output->writeln('', 'ERROR');
-
-            return 1;
         }
+        
+        $output->writeln('Database does not have any mapping information.', 'ERROR');
+        $output->writeln('', 'ERROR');
+
+        return 1;
     }
 }
