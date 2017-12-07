@@ -115,6 +115,8 @@
       	                        			<td>
                                              {% if value.comment is defined %}
                                                 {{value.comment}}
+                                             {% elseif value.options.comment is defined %}
+                                                {{value.options.comment}}
                                              {% endif %}
                                           </td>
       	                        		</tr>
