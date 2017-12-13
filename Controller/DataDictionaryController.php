@@ -36,7 +36,7 @@ class DataDictionaryController extends Controller
         return $this->render('@DataDictionaryBundle/DataDictionary/show.html.twig', array('tables'=>$tablesArray, 'content'=>$array));
     }
 
-    public function getJsonFile($path)
+    protected function getJsonFile($path)
     {
     	$files = scandir($path); 
 
