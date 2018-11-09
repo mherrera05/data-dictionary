@@ -104,3 +104,6 @@ Once files have been imported, just call the URL on web browser.
 /app.php/data-dictionary
 ```
 
+# Maintainer
+
+Miguel Herrera [https://github.com/mherrera05/](https://github.com/mherrera05/)
