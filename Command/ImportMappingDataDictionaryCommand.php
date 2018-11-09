@@ -87,18 +87,18 @@ EOT
                 $path = $destPath.'/'.str_replace('\\', '.', $className).'.orm.json';
                 $output->writeln(sprintf('  > writing <comment>%s</comment>', $path));
                 $code = $exporter->exportClassMetadata($class);
-                
+
                 if (!is_dir($dir = dirname($path))) {
                     mkdir($dir, 0775, true);
                 }
-                
+
                 file_put_contents($path, $code);
                 chmod($path, 0664);
             }
 
             return 0;
         }
-        
+
         $output->writeln('Database does not have any mapping information.', 'ERROR');
         $output->writeln('', 'ERROR');
 

@@ -65,9 +65,9 @@ class JsonExporter extends AbstractExporter
 
                 foreach ($joinColumns as $joinColumn) {
                     $newJoinColumns['referencedColumnName'] = $joinColumn['referencedColumnName'];
-                    
+
                     if(count($newJoinColumns)==1){
-                        $joinColumnAsDatabase = $joinColumn['name']; 
+                        $joinColumnAsDatabase = $joinColumn['name'];
                     }
                 }
 
@@ -79,7 +79,7 @@ class JsonExporter extends AbstractExporter
                 } else {
                     $array['manyToOne'][$joinColumnAsDatabase] = $associationArray;
                 }
-            } 
+            }
         }
 
         return json_encode($array);

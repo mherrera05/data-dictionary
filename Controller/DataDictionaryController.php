@@ -38,7 +38,7 @@ class DataDictionaryController extends Controller
 
     protected function getJsonFile($path)
     {
-    	$files = scandir($path); 
+    	$files = scandir($path);
 
     	foreach ($files as $file) {
     		if($file !== '.' && $file !== '..'){

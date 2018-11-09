@@ -49,7 +49,7 @@
                <p>{{'This view contents all information imported from database. The purpose of this is serve as data dictionary for developers.'|trans({}, 'DataDictionaryBundle') }}</p>
                <section id="tables" class="resource-group">
                   <h2 class="group-heading">{{'Tables'|trans({}, 'DataDictionaryBundle') }}<a href="#tables" class="permalink">&para;</a></h2>
-                  
+
                   {% block table_description %}
                      {% for table in content %}
    	                  <div id="{{table.table}}" class="resource">
