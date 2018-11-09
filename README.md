@@ -1,4 +1,4 @@
-![Symfony Bundle](https://symfony.com/images/v5/pictos/home-main-illu.svg)
+![Symfony Bundle](https://www.forcelibre.com/wp-content/uploads/2017/10/logo-sf.png?x73297)
 
 [![Packagist](https://img.shields.io/packagist/dt/mherrera05/data-dictionary.svg?style=for-the-badge)](https://packagist.org/packages/mherrera05/data-dictionary) [![GitHub tag](https://img.shields.io/github/tag/mherrera05/data-dictionary.svg?style=for-the-badge)](https://github.com/mherrera05/data-dictionary/tags) [![Codacy grade](https://img.shields.io/codacy/grade/fc5ba48f0fac49ab87357b5575cbb965.svg?style=for-the-badge)]() [![Packagist](https://img.shields.io/packagist/l/mherrera05/data-dictionary.svg?style=for-the-badge)](https://packagist.org/packages/mherrera05/data-dictionary) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/27857897-b592-4d7c-b415-a5609a3636ec/small.png)](https://insight.sensiolabs.com/projects/27857897-b592-4d7c-b415-a5609a3636ec)
 [![knpbundles.com](http://knpbundles.com/mherrera05/data-dictionary/badge-short)](http://knpbundles.com/mherrera05/data-dictionary)
