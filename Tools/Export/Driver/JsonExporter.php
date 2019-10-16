@@ -2,7 +2,6 @@
 
 namespace DataDictionaryBundle\Tools\Export\Driver;
 
-use Symfony\Component\Yaml\Yaml;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Tools\Export\Driver\AbstractExporter;
 
@@ -42,7 +41,7 @@ class JsonExporter extends AbstractExporter
         }
 
         if ($fields) {
-            if ( ! isset($array['fields'])) {
+            if (!isset($array['fields'])) {
                 $array['fields'] = array();
             }
             $array['fields'] = array_merge($array['fields'], $fields);
@@ -66,7 +65,7 @@ class JsonExporter extends AbstractExporter
                 foreach ($joinColumns as $joinColumn) {
                     $newJoinColumns['referencedColumnName'] = $joinColumn['referencedColumnName'];
 
-                    if(count($newJoinColumns)==1){
+                    if (count($newJoinColumns) == 1) {
                         $joinColumnAsDatabase = $joinColumn['name'];
                     }
                 }

@@ -2,16 +2,15 @@
 
 namespace DataDictionaryBundle\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\ORM\Mapping\Driver\DatabaseDriver;
-use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
 use DataDictionaryBundle\Tools\Export\ClassMetadataExporter;
-use Doctrine\ORM\Tools\Console\MetadataFilter;
 use Doctrine\Bundle\DoctrineBundle\Command\DoctrineCommand;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\ORM\Mapping\Driver\DatabaseDriver;
+use Doctrine\ORM\Tools\Console\MetadataFilter;
+use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportMappingDataDictionaryCommand extends DoctrineCommand
 {
@@ -49,7 +48,7 @@ Use the <info>--force</info> option, if you want to override existing mapping fi
 
 <info>php %command.full_name% "MyCustomBundle" xml --force</info>
 EOT
-        );
+            );
     }
 
     /**
@@ -83,8 +82,8 @@ EOT
 
             foreach ($metadata as $class) {
                 $className = $class->name;
-                $class->name = $bundle->getNamespace().'\\Entity\\'.$className;
-                $path = $destPath.'/'.str_replace('\\', '.', $className).'.orm.json';
+                $class->name = $bundle->getNamespace() . '\\Entity\\' . $className;
+                $path = $destPath . '/' . str_replace('\\', '.', $className) . '.orm.json';
                 $output->writeln(sprintf('  > writing <comment>%s</comment>', $path));
                 $code = $exporter->exportClassMetadata($class);
 
@@ -95,13 +94,11 @@ EOT
                 file_put_contents($path, $code);
                 chmod($path, 0664);
             }
-
             return 0;
         }
 
         $output->writeln('Database does not have any mapping information.', 'ERROR');
         $output->writeln('', 'ERROR');
-
         return 1;
     }
 }

@@ -44,7 +44,7 @@ class ClassMetadataExporter
      */
     public function getExporter($type, $dest = null)
     {
-        if ( ! isset(self::$_exporterDrivers[$type])) {
+        if (!isset(self::$_exporterDrivers[$type])) {
             throw ExportException::invalidExporterDriverType($type);
         }
 
